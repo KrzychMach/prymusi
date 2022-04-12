@@ -30,26 +30,28 @@ def main():
 
     fig, ax = plt.subplots()
 
-    optimiser = tf.keras.optimizers.SGD(learning_rate=0.05, momentum=0.8)
+    optimiser = tf.keras.optimizers.SGD(learning_rate=0.3, momentum=0.3)
 
     def step(i):
         nonlocal current_args
         with tf.GradientTape() as tape:
             if random.randint(0, 1) == 0:
-                current_z = funny_function(current_args[0], current_args[1])
+                current_z = 0.5 * funny_function(current_args[0], current_args[1])
             else:
-                current_z = wavy_function(current_args[0], current_args[1])
+                current_z = 0.5 * wavy_function(current_args[0], current_args[1])
 
         gradients = tape.gradient(current_z, current_args)
 
         ax.clear()
         contour = ax.contour(xs, ys, zs, 30, cmap='coolwarm')
         ax.clabel(contour, inline=True)
+        ax.set_title("Pełne SGD, learning rate = 0.3, momentum = 0.3")
         ax.scatter([current_args[0].numpy()], [current_args[1].numpy()], color='black')
 
         optimiser.apply_gradients(zip(gradients, current_args))
 
-    anim_list.append(mpl_animation.FuncAnimation(fig, step, interval=20))  # bez tego jakiś bug powoduje, że animacja nie działa
+    animation = mpl_animation.FuncAnimation(fig, step, interval=50)
+    animation.save('./sgd_alter_1.gif', writer=mpl_animation.PillowWriter(fps=60))
     plt.show()
 
 

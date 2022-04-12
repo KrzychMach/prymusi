@@ -20,7 +20,8 @@ ax.set_xticks(np.arange(1880, 2011, 10))
 ax.set_yticks(np.array([0.0]))
 
 ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(0.2))
-ax.yaxis.set_minor_formatter(mpl.ticker.FormatStrFormatter("%.1f"))
+ax.yaxis.set_minor_formatter(mpl.ticker.FormatStrFormatter("%.1f°C"))
+ax.yaxis.set_major_formatter(mpl.ticker.FormatStrFormatter("%.1f°C"))
 
 # linie co 0.2 na osi y
 ax.grid(axis='y', which='minor', linestyle=':')
